@@ -1,10 +1,9 @@
 package com.genlight.to;
 
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class Sitio {
+public class SitioTO {
     private int id;
 
     @NotNull(message = "Name can't be null")
@@ -17,7 +16,7 @@ public class Sitio {
     @NotNull(message = "idEndereco can't be null")
     private int idEndereco;
 
-    public Sitio() {
+    public SitioTO() {
     }
 
     public int getId() {

@@ -2,10 +2,11 @@ package com.genlight.to;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-public class Empresa {
+public class EmpresaTO {
 
     private int id;
 
@@ -21,7 +22,10 @@ public class Empresa {
     @Size(min = 8, message = "Password with minimum of 8 chars")
     private String senha;
 
-    public Empresa() {
+    @NotNull(message = "Address couldn't be null")
+    private int idEndereco;
+
+    public EmpresaTO() {
     }
 
     public int getId() {
@@ -62,5 +66,13 @@ public class Empresa {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public int getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
     }
 }

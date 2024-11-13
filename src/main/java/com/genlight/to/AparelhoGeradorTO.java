@@ -3,7 +3,7 @@ package com.genlight.to;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 
-public class AparelhoGerador {
+public class AparelhoGeradorTO {
     private int id;
 
     private int potencia;
@@ -13,7 +13,7 @@ public class AparelhoGerador {
     @NotNull
     private int sitio;
 
-    public AparelhoGerador() {
+    public AparelhoGeradorTO() {
     }
 
     public int getId() {

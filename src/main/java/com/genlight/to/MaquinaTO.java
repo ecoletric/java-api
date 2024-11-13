@@ -3,16 +3,16 @@ package com.genlight.to;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class Industria {
+public class MaquinaTO {
     private int id;
-
-    @NotBlank(message = "Name can't be blank")
+    @NotBlank
     private String nome;
+    @NotNull
+    private int consumo;
+    @NotNull
+    private int idSitio;
 
-    @NotNull(message = "Industry should be linked with a enterprise")
-    private int idEmpresa;
-
-    public Industria() {
+    public MaquinaTO() {
     }
 
     public int getId() {
@@ -31,11 +31,19 @@ public class Industria {
         this.nome = nome;
     }
 
-    public int getIdEmpresa() {
-        return idEmpresa;
+    public int getConsumo() {
+        return consumo;
     }
 
-    public void setIdEmpresa(int idEmpresa) {
-        this.idEmpresa = idEmpresa;
+    public void setConsumo(int consumo) {
+        this.consumo = consumo;
+    }
+
+    public int getIdSitio() {
+        return idSitio;
+    }
+
+    public void setIdSitio(int idSitio) {
+        this.idSitio = idSitio;
     }
 }

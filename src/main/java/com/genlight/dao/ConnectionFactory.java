@@ -1,8 +1,12 @@
 package com.genlight.dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionFactory {
     public static ConnectionFactory instance;
@@ -25,16 +29,25 @@ public class ConnectionFactory {
         if (result != null) {
             return result;
         }
-
-        String url = System.getProperty("DB_URL");
-        String user = System.getProperty("DB_USERNAME");
-        String pass = System.getProperty("DB_PASSWORD");
-        String driver = System.getProperty("DB_DRIVER");
-
-        if (instance == null) {
-            instance = new ConnectionFactory(url, user, pass, driver);
+        Properties prop = new Properties();
+        FileInputStream file = null;
+        try {
+            file= new FileInputStream("./src/main/resources/application.properties"); prop.load(file);
+            String url = prop.getProperty("datasource.url");
+            String user = prop.getProperty("datasource.username");
+            String pass = prop.getProperty("datasource.password");
+            String driver = prop.getProperty("datasource.driver-class-name");
+            file.close();
+            if (instance == null) {
+                instance = new ConnectionFactory (url, user, pass, driver);
+            }
+            return instance;
+        } catch (FileNotFoundException e) {
+            System.out.println("Erro (FileNotFoundException): " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Erro (IOException): " + e.getMessage());
         }
-        return instance;
+        return null;
     }
 
     public Connection getConexao() {
