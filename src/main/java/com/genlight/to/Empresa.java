@@ -1,12 +1,28 @@
 package com.genlight.to;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CNPJ;
+
 public class Empresa {
+
     private int id;
+
+    @NotBlank(message = "Name is required")
     private String nome;
+
+    @CNPJ(message = "Invalid CNPJ")
     private String cnpj;
 
+    @Email(message = "Invalid Email")
     private String emaill;
+
+    @Size(min = 8, message = "Password with minimum of 8 chars")
     private String senha;
+
+    public Empresa() {
+    }
 
     public int getId() {
         return id;
