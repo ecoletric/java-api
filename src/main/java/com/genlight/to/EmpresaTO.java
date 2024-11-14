@@ -17,7 +17,7 @@ public class EmpresaTO {
     private String cnpj;
 
     @Email(message = "Invalid Email")
-    private String emaill;
+    private String email;
 
     @Size(min = 8, message = "Password with minimum of 8 chars")
     private String senha;
@@ -52,12 +52,12 @@ public class EmpresaTO {
         this.cnpj = cnpj;
     }
 
-    public String getEmaill() {
-        return emaill;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmaill(String emaill) {
-        this.emaill = emaill;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSenha() {

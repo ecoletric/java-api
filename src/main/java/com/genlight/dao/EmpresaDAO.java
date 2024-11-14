@@ -17,9 +17,9 @@ public class EmpresaDAO extends Repository{
                 while(rs.next()){
                     EmpresaTO empresa = new EmpresaTO();
                     empresa.setNome(rs.getString("nm_empresa"));
-                    empresa.setEmaill(rs.getString("email"));
+                    empresa.setEmail(rs.getString("email"));
                     empresa.setSenha(rs.getString("senha"));
-                    empresa.setCnpj(rs.getString("cnpj"));
+                    empresa.setCnpj(rs.getString("nr_cnpj"));
                     empresa.setIdEndereco(rs.getInt("id_endereco"));
                     empresa.setId(rs.getInt("id_empresa"));
                     resultado.add(empresa);
@@ -41,9 +41,9 @@ public class EmpresaDAO extends Repository{
             if (rs.next()){
                 EmpresaTO empresa = new EmpresaTO();
                 empresa.setNome(rs.getString("nm_empresa"));
-                empresa.setEmaill(rs.getString("email"));
+                empresa.setEmail(rs.getString("email"));
                 empresa.setSenha(rs.getString("senha"));
-                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setCnpj(rs.getString("nr_cnpj"));
                 empresa.setIdEndereco(rs.getInt("id_endereco"));
                 empresa.setId(rs.getInt("id_empresa"));
                 return empresa;
@@ -59,13 +59,18 @@ public class EmpresaDAO extends Repository{
     public EmpresaTO save(EmpresaTO empresaTO){
         String sql = "INSERT INTO T_GL_EMPRESA(NM_EMPRESA, NR_CNPJ, EMAIL, SENHA, ID_ENDERECO) values (?," +
                 " ?, ?, ?, ?)";
-        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+        try(PreparedStatement ps = getConnection().prepareStatement(sql, new String[]{"ID_EMPRESA"})){
             ps.setString(1, empresaTO.getNome());
             ps.setString(2, empresaTO.getCnpj());
-            ps.setString(3, empresaTO.getEmaill());
+            ps.setString(3, empresaTO.getEmail());
             ps.setString(4, empresaTO.getSenha());
             ps.setInt(5, empresaTO.getIdEndereco());
-            if (ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        empresaTO.setId(rs.getInt(1));
+                    }
+                }
                 return empresaTO;
             }
         } catch (SQLException e) {
