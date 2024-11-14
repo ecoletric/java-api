@@ -1,6 +1,8 @@
 package com.genlight.dao;
 
 import com.genlight.to.MaquinaTO;
+import com.genlight.to.SitioInvalidoException;
+import com.genlight.to.TipoEnergia;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,7 +90,7 @@ public class MaquinaDAO extends Repository{
             }
         } catch (SQLException e) {
             System.out.println("Erro de sql! " + e.getMessage());
-        }finally {
+        }  finally {
             closeConnection();
         }
         return null;
@@ -124,4 +126,6 @@ public class MaquinaDAO extends Repository{
         }
         return null;
     }
+
+
 }

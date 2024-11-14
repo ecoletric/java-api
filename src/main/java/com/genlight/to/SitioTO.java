@@ -1,5 +1,6 @@
 package com.genlight.to;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,6 +16,11 @@ public class SitioTO {
     private int idIndustria;
     @NotNull(message = "idEndereco can't be null")
     private int idEndereco;
+
+    private Double consumo;
+    private Double energiaProduzida;
+
+
 
     public SitioTO() {
     }
@@ -58,4 +64,22 @@ public class SitioTO {
     public void setIdEndereco(int idEndereco) {
         this.idEndereco = idEndereco;
     }
+
+    public Double getConsumo() {
+        return consumo;
+    }
+
+    public void setConsumo(Double consumo) {
+        this.consumo = consumo;
+    }
+
+    public Double getEnergiaProduzida() {
+        return energiaProduzida;
+    }
+
+    public void setEnergiaProduzida(Double energiaProduzida) {
+        this.energiaProduzida = energiaProduzida;
+    }
 }
+
+

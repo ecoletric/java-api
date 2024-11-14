@@ -74,7 +74,7 @@ public class MaquinaResource {
             response = Response.ok();
         }
         else{
-            response = Response.status(404);
+            response = Response.status(400);
         }
         response.entity(resultado);
         return response.build();

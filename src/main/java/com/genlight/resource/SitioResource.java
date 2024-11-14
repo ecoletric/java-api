@@ -79,6 +79,7 @@ public class SitioResource {
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") int id) {
+
         sitioBO = new SitioBO();
         Response.ResponseBuilder response = null;
         if (sitioBO.delete(id)) {

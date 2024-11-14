@@ -1,7 +1,10 @@
 package com.genlight.bo;
 
 import com.genlight.dao.AparelhoGeradorDAO;
+import com.genlight.dao.SitioDAO;
 import com.genlight.to.AparelhoGeradorTO;
+import com.genlight.to.SitioInvalidoException;
+import com.genlight.to.TipoEnergia;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,13 @@ public class AparelhoGeradorBO {
 
     public AparelhoGeradorTO save(AparelhoGeradorTO aparelho) {
         aparelhoGeradorDAO = new AparelhoGeradorDAO();
+        try {
+            SitioDAO.isSitioTipoFonteCorrect(aparelho.getSitio(), aparelho.getTipo());
+        } catch (SitioInvalidoException e) {
+            System.out.println("Salvar aparelho gerador de "+ TipoEnergia.fromValor(aparelho.getTipo()) + " não " +
+                    "foi possível! " + e.getMessage());
+            return null;
+        }
         return aparelhoGeradorDAO.save(aparelho);
     }
 

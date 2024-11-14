@@ -1,7 +1,9 @@
 package com.genlight.bo;
 
 import com.genlight.dao.MaquinaDAO;
+import com.genlight.dao.SitioDAO;
 import com.genlight.to.MaquinaTO;
+import com.genlight.to.SitioInvalidoException;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,12 @@ public class MaquinaBO {
 
     public MaquinaTO save(MaquinaTO pecaTO){
         maquinaDAO = new MaquinaDAO();
+        try {
+            SitioDAO.isSitioTipoFonteCorrect(pecaTO.getIdSitio(), 0);
+        } catch (SitioInvalidoException e) {
+            System.out.println("Salvar máquina não foi possível! " + e.getMessage());
+            return null;
+        }
         return maquinaDAO.save(pecaTO);
     }
 
