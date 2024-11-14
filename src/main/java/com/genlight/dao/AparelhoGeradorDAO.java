@@ -31,6 +31,30 @@ public class AparelhoGeradorDAO extends Repository {
         return resultado;
     }
 
+    public ArrayList<AparelhoGeradorTO> findAllByIdSitio(int idSitio) {
+        ArrayList<AparelhoGeradorTO> resultado = new ArrayList<>();
+        String sql = "SELECT * FROM T_GL_APARELHO_GERADOR where ID_SITIO = ?";
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, idSitio);
+            ResultSet rs = ps.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    AparelhoGeradorTO aparelho = new AparelhoGeradorTO();
+                    aparelho.setId(rs.getInt("id_fonte"));
+                    aparelho.setPotencia(rs.getInt("potencia"));
+                    aparelho.setSitio(rs.getInt("id_sitio"));
+                    aparelho.setTipo(rs.getInt("tipo"));
+                    resultado.add(aparelho);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro de sql! " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+        return resultado;
+    }
+
     public AparelhoGeradorTO findById(int id) {
         String sql = "SELECT * FROM T_GL_APARELHO_GERADOR WHERE ID_FONTE = ?";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {

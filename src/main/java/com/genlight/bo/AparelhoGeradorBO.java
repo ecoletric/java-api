@@ -13,6 +13,11 @@ public class AparelhoGeradorBO {
         return aparelhoGeradorDAO.findAll();
     }
 
+    public ArrayList<AparelhoGeradorTO> findAllByIdSitio(int idSitio) {
+        aparelhoGeradorDAO = new AparelhoGeradorDAO();
+        return aparelhoGeradorDAO.findAllByIdSitio(idSitio);
+    }
+
     public AparelhoGeradorTO findById(int id) {
         aparelhoGeradorDAO = new AparelhoGeradorDAO();
         return aparelhoGeradorDAO.findById(id);

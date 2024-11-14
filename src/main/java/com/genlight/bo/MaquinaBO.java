@@ -12,6 +12,11 @@ public class MaquinaBO {
         maquinaDAO = new MaquinaDAO();
         return maquinaDAO.findAll();
     }
+
+    public ArrayList<MaquinaTO> findAllByIdSitio(int idSitio){
+        maquinaDAO = new MaquinaDAO();
+        return maquinaDAO.findAllByIdSitio(idSitio);
+    }
     public MaquinaTO findById(int id){
         maquinaDAO = new MaquinaDAO();
         return maquinaDAO.findById(id);

@@ -28,6 +28,22 @@ public class AparelhoGeradorResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/sitio/{idSitio}")
+    public Response findAllByIdSitio(@PathParam("idSitio") int idSitio) {
+        aparelhoGeradorBO = new AparelhoGeradorBO();
+        ArrayList<AparelhoGeradorTO> resultado = aparelhoGeradorBO.findAllByIdSitio(idSitio);
+        Response.ResponseBuilder response = null;
+        if (resultado != null) {
+            response = Response.ok();
+        } else {
+            response = Response.status(404);
+        }
+        response.entity(resultado);
+        return response.build();
+    }
+
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") int id) {

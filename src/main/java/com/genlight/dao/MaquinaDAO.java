@@ -31,6 +31,30 @@ public class MaquinaDAO extends Repository{
         return resultado;
     }
 
+    public ArrayList<MaquinaTO> findAllByIdSitio(int idSitio){
+        ArrayList<MaquinaTO> resultado = new ArrayList<>();
+        String sql = "SELECT * FROM T_GL_MAQUINA where ID_SITIO = ?";
+        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+            ps.setInt(1, idSitio);
+            ResultSet rs = ps.executeQuery();
+            if (rs!=null){
+                while(rs.next()){
+                    MaquinaTO maquina = new MaquinaTO();
+                    maquina.setId(rs.getInt("id_maquina"));
+                    maquina.setConsumo(rs.getInt("consumo"));
+                    maquina.setNome(rs.getString("ds_maquina"));
+                    maquina.setIdSitio(rs.getInt("id_sitio"));
+                    resultado.add(maquina);
+                }
+            }
+        }catch (SQLException e){
+            System.out.println("Erro de sql! " + e.getMessage());
+        }finally {
+            closeConnection();
+        }
+        return resultado;
+    }
+
     public MaquinaTO findById(int id){
         String sql = "SELECT * FROM T_GL_MAQUINA where id_maquina = ?";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){

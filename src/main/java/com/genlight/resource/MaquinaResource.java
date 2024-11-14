@@ -28,6 +28,23 @@ public class MaquinaResource {
         return response.build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/sitio/{idSitio}")
+    public Response findAllByIdSitio(@PathParam("idSitio") int idSitio){
+        maquinaBO = new MaquinaBO();
+        ArrayList<MaquinaTO> resultado = maquinaBO.findAllByIdSitio(idSitio);
+        Response.ResponseBuilder response = null;
+        if (resultado != null){
+            response = Response.ok();
+        }
+        else{
+            response = Response.status(404);
+        }
+        response.entity(resultado);
+        return response.build();
+    }
+
 
     @GET
     @Path("/{id}")
