@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 
+@Path("/industria")
 public class IndustriaResource {
     IndustriaBO industriaBO;
     @GET
@@ -15,6 +16,23 @@ public class IndustriaResource {
     public Response findAll(){
         industriaBO = new IndustriaBO();
         ArrayList<IndustriaTO> resultado = industriaBO.findAll();
+        Response.ResponseBuilder response = null;
+        if (resultado != null){
+            response = Response.ok();
+        }
+        else{
+            response = Response.status(404);
+        }
+        response.entity(resultado);
+        return response.build();
+    }
+
+    @GET
+    @Path("/empresa/{idEmpresa}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByIdEmpresa(@PathParam("idEmpresa") int idEmpresa){
+        industriaBO = new IndustriaBO();
+        ArrayList<IndustriaTO> resultado = industriaBO.findByIdEmpresa(idEmpresa);
         Response.ResponseBuilder response = null;
         if (resultado != null){
             response = Response.ok();

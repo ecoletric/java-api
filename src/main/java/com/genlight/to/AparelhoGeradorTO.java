@@ -7,7 +7,9 @@ public class AparelhoGeradorTO {
     private int id;
 
     private int potencia;
-    @Max(value = 1, message = "Type should be in range 0-1 of values")
+
+    @NotNull
+    @Max(value = 2, message = "Type should be in range 1-2 of values")
     private int tipo;
 
     @NotNull

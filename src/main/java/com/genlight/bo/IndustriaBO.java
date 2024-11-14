@@ -17,6 +17,11 @@ public class IndustriaBO {
         return industriaDAO.findById(id);
     }
 
+    public ArrayList<IndustriaTO> findByIdEmpresa(int id){
+        industriaDAO = new IndustriaDAO();
+        return industriaDAO.findByIdEmpresa(id);
+    }
+
     public IndustriaTO save(IndustriaTO pecaTO){
         industriaDAO = new IndustriaDAO();
         return industriaDAO.save(pecaTO);

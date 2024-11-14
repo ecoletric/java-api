@@ -54,11 +54,16 @@ public class AparelhoGeradorDAO extends Repository {
 
     public AparelhoGeradorTO save(AparelhoGeradorTO aparelho) {
         String sql = "INSERT INTO T_GL_APARELHO_GERADOR(POTENCIA, TIPO, ID_SITIO) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(sql, new String[]{"ID_FONTE"})) {
             ps.setInt(1, aparelho.getPotencia());
             ps.setInt(2, aparelho.getTipo());
             ps.setInt(3, aparelho.getSitio());
             if (ps.executeUpdate() > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        aparelho.setId(rs.getInt(1));
+                    }
+                }
                 return aparelho;
             }
         } catch (SQLException e) {

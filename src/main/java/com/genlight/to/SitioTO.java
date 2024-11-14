@@ -9,7 +9,7 @@ public class SitioTO {
     @NotNull(message = "Name can't be null")
     private String nome;
 
-    @Max(value = 1, message = "Energy type should be only 0-1 range values!")
+    @Max(value = 2, message = "Energy type should be only 0-1 range values!")
     private int tipoFonte;
     @NotNull(message = "idIndustria can't be null")
     private int idIndustria;

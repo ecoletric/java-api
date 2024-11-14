@@ -86,7 +86,10 @@ public class MaquinaDAO extends Repository{
     public MaquinaTO update(MaquinaTO maquina){
         String sql = "update T_GL_MAQUINA set CONSUMO = ?, DS_MAQUINA = ?, ID_SITIO = ? where ID_MAQUINA = ?";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
-         
+            ps.setInt(1, maquina.getConsumo());
+            ps.setString(2, maquina.getNome());
+            ps.setInt(3, maquina.getIdSitio());
+            ps.setInt(4, maquina.getId());
             if (ps.executeUpdate() > 0){
                 return maquina;
             }

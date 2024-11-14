@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 
-@Path("/gerador")
+@Path("/aparelho-gerador")
 public class AparelhoGeradorResource {
     AparelhoGeradorBO aparelhoGeradorBO;
 
