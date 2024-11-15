@@ -95,8 +95,13 @@ public class EmpresaDAO extends Repository{
     }
 
     public EmpresaTO update(EmpresaTO empresa){
-        String sql = "update T_GL_EMPRESA set EMAIL = ?, NR_CNPJ = ?, SENHA = ?, NM_EMPRESA = ? where ID_EMPRESA = ?";
+        String sql = "update T_GL_EMPRESA set EMAIL = ?, NR_CNPJ = ?, SENHA = ?, NM_EMPRESA = ? where ID_EMPRESA = ? ";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+            ps.setString(1, empresa.getEmail());
+            ps.setString(2, empresa.getCnpj());
+            ps.setString(3, empresa.getSenha());
+            ps.setString(4, empresa.getNome());
+            ps.setInt(5, empresa.getId());
             if (ps.executeUpdate() > 0){
                 return empresa;
             }

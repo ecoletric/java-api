@@ -2,6 +2,7 @@ package com.genlight.resource;
 
 import com.genlight.bo.MaquinaBO;
 import com.genlight.to.MaquinaTO;
+import com.genlight.to.SitioInvalidoException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -66,7 +67,7 @@ public class MaquinaResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(MaquinaTO maquina){
+    public Response save(MaquinaTO maquina) throws SitioInvalidoException {
         maquinaBO = new MaquinaBO();
         MaquinaTO resultado = maquinaBO.save(maquina);
         Response.ResponseBuilder response = null;

@@ -232,7 +232,8 @@ public class SitioDAO extends Repository {
         SitioTO sitio = new SitioDAO().findById(idSitio);
         int tipoSitio = sitio.getTipoFonte();
         if (tipoAparelho != tipoSitio){
-            throw new SitioInvalidoException("Sitio requisitado é de: " + TipoEnergia.fromValor(tipoSitio));
+            throw new SitioInvalidoException("Aparelho do tipo " + TipoEnergia.fromValor(tipoAparelho) + " não pode " +
+                    "ser cadastrado no sítio de: " + TipoEnergia.fromValor(tipoSitio));
         }
     }
 }
