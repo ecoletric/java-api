@@ -28,6 +28,22 @@ public class SitioResource {
     }
 
     @GET
+    @Path("/industria/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByIdIndustria(@PathParam("id") int id) {
+        sitioBO = new SitioBO();
+        ArrayList<SitioTO> resultado = sitioBO.findAllByIdIndustria(id);
+        Response.ResponseBuilder response = null;
+        if (resultado != null) {
+            response = Response.ok();
+        } else {
+            response = Response.status(404);
+        }
+        response.entity(resultado);
+        return response.build();
+    }
+
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") int id) {

@@ -33,10 +33,11 @@ public class SitioDAO extends Repository {
         return resultado;
     }
 
-    public ArrayList<SitioTO> findAllByIdIndustria(int idSitio) {
+    public ArrayList<SitioTO> findAllByIdIndustria(int idIndustria) {
         ArrayList<SitioTO> resultado = new ArrayList<>();
-        String sql = "SELECT * FROM T_GL_SITIO";
+        String sql = "SELECT * FROM T_GL_SITIO where ID_INDUSTRIA = ?";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, idIndustria);
             ResultSet rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {

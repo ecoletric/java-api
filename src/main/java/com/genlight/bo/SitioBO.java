@@ -19,6 +19,11 @@ public class SitioBO {
         return sitioDAO.findById(id);
     }
 
+    public ArrayList<SitioTO> findAllByIdIndustria(int id) {
+        sitioDAO = new SitioDAO();
+        return sitioDAO.findAllByIdIndustria(id);
+    }
+
     public SitioTO save(SitioTO sitio) {
         sitioDAO = new SitioDAO();
         return sitioDAO.save(sitio);
