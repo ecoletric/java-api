@@ -12,6 +12,8 @@ public class IndustriaTO {
     @NotNull(message = "Industry should be linked with a enterprise")
     private int idEmpresa;
 
+
+
     public IndustriaTO() {
     }
 

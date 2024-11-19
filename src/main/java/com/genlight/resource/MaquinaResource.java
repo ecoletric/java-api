@@ -67,9 +67,14 @@ public class MaquinaResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(MaquinaTO maquina) throws SitioInvalidoException {
+    public Response save(MaquinaTO maquina){
         maquinaBO = new MaquinaBO();
-        MaquinaTO resultado = maquinaBO.save(maquina);
+        MaquinaTO resultado = null;
+        try {
+            resultado = maquinaBO.save(maquina);
+        } catch (SitioInvalidoException e) {
+            System.out.println("Erro de Sítio Inválido: " + e.getMessage());
+        }
         Response.ResponseBuilder response = null;
         if (resultado != null){
             response = Response.ok();

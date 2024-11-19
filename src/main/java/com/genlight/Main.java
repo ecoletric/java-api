@@ -1,7 +1,6 @@
 package com.genlight;
 
 import com.genlight.resource.CorsFilter;
-import com.genlight.resource.GenericExceptionMapper;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -27,7 +26,6 @@ public class Main {
         final ResourceConfig rc = new ResourceConfig().packages("com.genlight.resource");
         rc.register(ResourceConfig.class);
         rc.register(CorsFilter.class);
-        rc.register(GenericExceptionMapper.class);
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);

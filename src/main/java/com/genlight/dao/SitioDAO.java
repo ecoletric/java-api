@@ -33,32 +33,34 @@ public class SitioDAO extends Repository {
         return resultado;
     }
 
-    public ArrayList<SitioTO> findAllByIdIndustria(int idIndustria) {
-        ArrayList<SitioTO> resultado = new ArrayList<>();
-        String sql = "SELECT * FROM T_GL_SITIO where ID_INDUSTRIA = ?";
-        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
-            ps.setInt(1, idIndustria);
-            ResultSet rs = ps.executeQuery();
-            if (rs != null) {
-                while (rs.next()) {
-                    SitioTO sitio = new SitioTO();
-                    sitio.setId(rs.getInt("id_sitio"));
-                    sitio.setTipoFonte(rs.getInt("tp_fonte"));
-                    sitio.setIdIndustria(rs.getInt("id_industria"));
-                    sitio.setIdEndereco(rs.getInt("id_endereco"));
-                    resultado.add(sitio);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro de sql! " + e.getMessage());
-        } finally {
-            closeConnection();
-        }
-        return resultado;
-    }
+//    public ArrayList<SitioTO> findAllByIdIndustria(int idIndustria) {
+//        ArrayList<SitioTO> resultado = new ArrayList<>();
+//        String sql = "SELECT * FROM T_GL_SITIO where ID_INDUSTRIA = ?";
+//        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+//            ps.setInt(1, idIndustria);
+//            ResultSet rs = ps.executeQuery();
+//            if (rs != null) {
+//                while (rs.next()) {
+//                    SitioTO sitio = new SitioTO();
+//                    sitio.setId(rs.getInt("id_sitio"));
+//                    sitio.setTipoFonte(rs.getInt("tp_fonte"));
+//                    sitio.setIdIndustria(rs.getInt("id_industria"));
+//                    sitio.setIdEndereco(rs.getInt("id_endereco"));
+//                    resultado.add(sitio);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Erro de sql! " + e.getMessage());
+//        } finally {
+//            closeConnection();
+//        }
+//        return resultado;
+//    }
 
     public SitioTO findById(int id) {
         String sql = "SELECT * FROM T_GL_SITIO WHERE id_sitio = ?";
+        double consumo = findConsumption(id);
+        double energiaProduzida = findSumEnergy(id);
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -68,8 +70,8 @@ public class SitioDAO extends Repository {
                 sitio.setTipoFonte(rs.getInt("tp_fonte"));
                 sitio.setIdIndustria(rs.getInt("id_industria"));
                 sitio.setIdEndereco(rs.getInt("id_endereco"));
-                sitio.setConsumo(findConsumption(sitio.getId()));
-                sitio.setEnergiaProduzida(findSumEnergy(sitio.getId()));
+                sitio.setConsumo(consumo);
+                sitio.setEnergiaProduzida(energiaProduzida);
                 return sitio;
             }
         } catch (SQLException e) {
@@ -129,6 +131,30 @@ public class SitioDAO extends Repository {
         return null;
     }
 
+    public ArrayList<SitioTO> findAllByIdIndustria(int id){
+        String sql = "select ID_SITIO from T_GL_SITIO where ID_INDUSTRIA = ?";
+        List<Integer> sitiosIds = new ArrayList<>();
+        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs != null){
+                while (rs.next()){
+                    sitiosIds.add(rs.getInt(1));
+                }
+            }
+        } catch (SQLException e){
+            System.out.println("Erro de sql: " + e.getMessage() + e.getStackTrace());
+        } finally {
+            closeConnection();
+        }
+        ArrayList<SitioTO> sitios = new ArrayList<>();
+        for(int idSitio : sitiosIds){
+            sitios.add(findById(idSitio));
+        }
+        return sitios;
+
+    }
+
     private Double findConsumption(int id){
         String sql = "select sum(m.CONSUMO) as consumo_total from T_GL_MAQUINA m inner join T_GL_SITIO s on m" +
                 ".ID_SITIO = s.ID_SITIO " +
@@ -146,6 +172,8 @@ public class SitioDAO extends Repository {
         }
         return null;
     }
+
+        
     private Double findSumEnergy(int id){
         String sql = "select sum(ag.POTENCIA) as consumo_total from T_GL_APARELHO_GERADOR ag inner join T_GL_SITIO s " +
                 "on ag" +
