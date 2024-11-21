@@ -16,11 +16,16 @@ public enum TipoEnergia {
     }
 
     public static TipoEnergia fromValor(int valor) {
-        for (TipoEnergia tipo : TipoEnergia.values()) {
-            if (tipo.getValor() == valor) {
-                return tipo;
+        try {
+            for (TipoEnergia tipo : TipoEnergia.values()) {
+                if (tipo.getValor() == valor) {
+                    return tipo;
+                }
             }
+            throw new IllegalArgumentException("Valor desconhecido: " + valor);
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
         }
-        throw new IllegalArgumentException("Valor desconhecido: " + valor);
+        return null;
     }
 }
