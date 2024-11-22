@@ -33,29 +33,6 @@ public class SitioDAO extends Repository {
         return resultado;
     }
 
-//    public ArrayList<SitioTO> findAllByIdIndustria(int idIndustria) {
-//        ArrayList<SitioTO> resultado = new ArrayList<>();
-//        String sql = "SELECT * FROM T_GL_SITIO where ID_INDUSTRIA = ?";
-//        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
-//            ps.setInt(1, idIndustria);
-//            ResultSet rs = ps.executeQuery();
-//            if (rs != null) {
-//                while (rs.next()) {
-//                    SitioTO sitio = new SitioTO();
-//                    sitio.setId(rs.getInt("id_sitio"));
-//                    sitio.setTipoFonte(rs.getInt("tp_fonte"));
-//                    sitio.setIdIndustria(rs.getInt("id_industria"));
-//                    sitio.setIdEndereco(rs.getInt("id_endereco"));
-//                    resultado.add(sitio);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Erro de sql! " + e.getMessage());
-//        } finally {
-//            closeConnection();
-//        }
-//        return resultado;
-//    }
 
     public SitioTO findById(int id) {
         String sql = "SELECT * FROM T_GL_SITIO WHERE id_sitio = ?";
@@ -84,12 +61,16 @@ public class SitioDAO extends Repository {
 
     public SitioTO save(SitioTO sitio) {
         String sql = "INSERT INTO T_GL_SITIO(TP_FONTE, ID_INDUSTRIA, ID_ENDERECO) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(sql, new String[]{"ID_SITIO"})) {
             ps.setInt(1, sitio.getTipoFonte());
             ps.setInt(2, sitio.getIdIndustria());
             ps.setInt(3, sitio.getIdEndereco());
             if (ps.executeUpdate() > 0) {
-
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        sitio.setId(rs.getInt(1));
+                    }
+                }
                 return sitio;
             }
         } catch (SQLException e) {
@@ -242,21 +223,6 @@ public class SitioDAO extends Repository {
 
     }
 
-//    public void isSitioTipoFonteCorrect(int idSitio) throws SitioInvalidoException {
-//        String sql = "select TP_FONTE from T_GL_SITIO where ID_SITIO = ?";
-//        try(PreparedStatement ps = getConnection().prepareStatement(sql)){
-//            ps.setInt(1, idSitio);
-//            ResultSet rs = ps.executeQuery();
-//            int tipo = rs.getInt(1);
-//            if (tipo != 0){
-//                throw new SitioInvalidoException("Sitio requisitado é de :" + TipoEnergia.fromValor(tipo));
-//            }
-//        } catch (SQLException e){
-//            System.out.println("Erro de sql: " + e.getMessage());
-//        } finally {
-//            closeConnection();
-//        }
-//    }
     public static void isSitioTipoFonteCorrect(int idSitio, int tipoAparelho) throws SitioInvalidoException {
         SitioTO sitio = new SitioDAO().findById(idSitio);
         int tipoSitio = sitio.getTipoFonte();

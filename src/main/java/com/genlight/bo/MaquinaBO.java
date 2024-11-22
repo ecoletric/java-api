@@ -25,9 +25,13 @@ public class MaquinaBO {
     }
     
 
-    public MaquinaTO save(MaquinaTO pecaTO) throws SitioInvalidoException {
+    public MaquinaTO save(MaquinaTO pecaTO) {
         maquinaDAO = new MaquinaDAO();
-        SitioDAO.isSitioTipoFonteCorrect(pecaTO.getIdSitio(), 0);
+        try {
+            SitioDAO.isSitioTipoFonteCorrect(pecaTO.getIdSitio(), 0);
+        } catch (SitioInvalidoException e) {
+            System.out.println("Erro de sítio inválido: " + e.getMessage());;
+        }
         return maquinaDAO.save(pecaTO);
     }
 
